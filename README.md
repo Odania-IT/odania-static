@@ -4,6 +4,7 @@ This module provides static content to the Odania Portal
 
 ## Structure of the static content
 
+```
 .
 +-- contents
 |   +-- _general
@@ -24,10 +25,11 @@ This module provides static content to the Odania Portal
 |                    +-- handy.html
 |       +-- domain-config.json
 |   +-- config.json
-
+```
 
 ## example config.json
 
+```
 {
 	"plugin-config": {
 		"name": "static-content",
@@ -54,7 +56,7 @@ This module provides static content to the Odania Portal
 		}
 	}
 }
-
+```
 
 ## TODO
 
