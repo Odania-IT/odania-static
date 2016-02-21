@@ -1,0 +1,7 @@
+application:
+  static_dir: /srv/static
+  web_dir: /srv/www
+  release_dir: /srv/releases
+  updater: inotify
+git_updater:
+  repo_url: git@example.com/my-repo.git
