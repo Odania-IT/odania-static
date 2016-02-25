@@ -9,6 +9,7 @@ RUN mkdir -p /etc/service/static
 COPY docker/runit_static.sh /etc/service/static/run
 
 COPY . /srv/odania
+RUN cp /srv/odania/config/application.yml.travis /srv/odania/config/application.yml
 
 WORKDIR /srv/odania
 RUN bundle install
