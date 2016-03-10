@@ -38,7 +38,7 @@ namespace :web do
 		puts JSON.pretty_generate plugin_config
 		puts "======================== FIN PLUGIN CONFIG ============================================="
 
-		plugin_instance_name = Odania.plugin.get_plugin_instance_name plugin_config['config']['name']
+		plugin_instance_name = Odania.plugin.get_plugin_instance_name plugin_config['plugin-config']['name']
 		Odania.plugin.register plugin_instance_name, plugin_config
 
 		puts 'Done'
