@@ -6,7 +6,7 @@ class GeneratePluginConfig
 		plugin_config = config_data.clone
 		plugin_config[:domains] = Hash.new
 		plugin_config['plugin-config']['ips'] = ips
-		plugin_config['plugin-config']['ip'] = ips.first
+		plugin_config['plugin-config']['ip'] = Odania.primary_ip(ips)
 		plugin_config['plugin-config']['port'] = 80
 		plugin_config['plugin-config']['tags'] = ['content']
 		puts JSON.pretty_generate plugin_config
