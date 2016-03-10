@@ -1,5 +1,6 @@
-require_relative 'processors/markdown_processor'
 require_relative 'processors/html_processor'
+require_relative 'processors/markdown_processor'
+require_relative 'processors/pre_processor'
 
 class PageConverter
 	def initialize(static_dir, target_web_dir)
@@ -119,7 +120,7 @@ class PageConverter
 				target_file = "#{@target_web_dir}#{target_name}"
 				puts "name: #{name} language: #{language} web_name: #{web_name}"
 
-				html_data = processor.process_file file
+				html_data, metadata = processor.process_file file
 
 				puts ' '*18 + "generating file: #{target_file} Length: #{html_data.length}"
 				target_dir = File.dirname target_file
@@ -129,7 +130,8 @@ class PageConverter
 
 				config[web_name] = {
 					plugin_url: target_name,
-					cacheable: true
+					cacheable: true,
+					metadata: metadata
 				}
 			end
 		end
@@ -154,7 +156,7 @@ class PageConverter
 
 				target_name = "/contents/#{domain}/internal/#{internal_name}"
 				target_file = "#{@target_web_dir}#{target_name}"
-				html_data = processor.process_file file
+				html_data, metadata = processor.process_file file
 
 				puts ' '*18 + "generating file: #{target_file} Length: #{html_data.length}"
 				target_dir = File.dirname target_file
@@ -164,7 +166,8 @@ class PageConverter
 
 				config[internal_name] = {
 					plugin_url: target_name,
-					cacheable: true
+					cacheable: true,
+					metadata: metadata
 				}
 			end
 		end
@@ -222,7 +225,7 @@ class PageConverter
 							target_name = "/contents/#{domain}/partials/#{web_name}"
 							target_file = "#{@target_web_dir}#{target_name}"
 
-							html_data = processor.process_file File.join partial_folder, file
+							html_data, metadata = processor.process_file File.join partial_folder, file
 
 							puts ' '*18 + "generating partial file: #{target_file} Length: #{html_data.length}"
 							target_dir = File.dirname target_file
@@ -232,7 +235,8 @@ class PageConverter
 
 							result[name] = {
 								plugin_url: target_name,
-								cacheable: true
+								cacheable: true,
+								metadata: metadata
 							}
 						end
 					end

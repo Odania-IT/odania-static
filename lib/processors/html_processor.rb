@@ -12,7 +12,8 @@ class HtmlProcessor
 	end
 
 	def process_file(file)
-		File.read file
+		content = File.read file
+		PreProcessor.process content
 	end
 
 	def can_handle?(file)

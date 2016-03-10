@@ -20,7 +20,8 @@ class MarkdownProcessor
 	end
 
 	def process_file(file)
-		self.markdown.render File.read file
+		content = self.markdown.render File.read file
+		PreProcessor.process content
 	end
 
 	def can_handle?(file)
