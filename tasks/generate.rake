@@ -34,6 +34,23 @@ namespace :web do
 		FileUtils.ln_sf release_dir, web_dir
 		`ln -sfn #{release_dir} #{web_dir}`
 
+		# Cleaning old releases
+		sorted_entries = Dir.glob(File.join(application_config['release_dir'], '*')).sort
+		if sorted_entries.length > 3
+			last_entries = []
+			last_entries << sorted_entries.pop
+			last_entries << sorted_entries.pop
+			last_entries << sorted_entries.pop
+
+			puts "Keeping releases: #{last_entries.join(', ')}"
+
+			sorted_entries.each do |entry|
+				puts "Cleaning release: #{entry}"
+				FileUtils.remove_dir entry
+			end
+			exit
+		end
+
 		puts "======================== PLUGIN CONFIG ============================================="
 		puts JSON.pretty_generate plugin_config
 		puts "======================== FIN PLUGIN CONFIG ============================================="
