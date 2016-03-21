@@ -6,5 +6,5 @@ pwd
 ls -lha
 rake web:generate
 
-echo "Starting nginx"
-exec nginx -g 'daemon off;'
+# Only run once. This will wait until signaled
+exec kill -STOP "$$";
