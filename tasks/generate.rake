@@ -48,12 +48,11 @@ namespace :web do
 				puts "Cleaning release: #{entry}"
 				FileUtils.remove_dir entry
 			end
-			exit
 		end
 
-		puts "======================== PLUGIN CONFIG ============================================="
+		puts '======================== PLUGIN CONFIG ============================================='
 		puts JSON.pretty_generate plugin_config
-		puts "======================== FIN PLUGIN CONFIG ============================================="
+		puts '======================== FIN PLUGIN CONFIG ============================================='
 
 		plugin_instance_name = Odania.plugin.get_plugin_instance_name plugin_config['plugin-config']['name']
 		Odania.plugin.register plugin_instance_name, plugin_config
