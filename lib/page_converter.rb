@@ -139,13 +139,18 @@ class PageConverter
 		config
 	end
 
-	def process_folder(directory, domain)
+	def process_folder(directory, domain, replace_dir=nil)
 		return {} unless File.directory? directory
 		config = {}
 
-		replace_dir = directory.split('/')
-		replace_dir.pop
-		replace_dir = replace_dir.join('/')
+		if replace_dir.nil?
+			puts "BEFORE REPLACE DIR #{directory}"
+			replace_dir = directory.split('/')
+			replace_dir.pop
+			replace_dir = replace_dir.join('/')
+		end
+
+		puts "REPLACE DIR #{replace_dir}"
 
 		@processors.each do |processor|
 			puts ' '*12 + " searching for: #{processor.name} in: #{directory}"
@@ -176,19 +181,29 @@ class PageConverter
 	end
 
 	def process_layouts(directory, domain)
+		puts "Processing layouts under: #{directory} Domain: #{domain}"
+
 		result = {}
 		Dir.glob("#{directory}/**/layout.json").each do |file|
+			puts "Processing #{file}"
+
 			begin
 				layout_config = JSON.parse File.read file
+				replace_dir = File.dirname(file).split('/')
+				replace_dir.pop
+				replace_dir.pop
+				replace_dir = replace_dir.join('/')
 				config = {
 					'styles' => {
 						'_general' => {
-							'direct' => process_folder(File.join(File.dirname(file), 'direct'), domain),
-							'dynamic' => process_folder(File.join(File.dirname(file), 'dynamic'), domain),
+							'direct' => process_folder(File.join(File.dirname(file), 'direct'), domain, replace_dir),
+							'dynamic' => process_folder(File.join(File.dirname(file), 'dynamic'), domain, replace_dir),
 							'assets' => process_assets(File.join(File.dirname(file), 'assets'))
 						}
 					}
 				}
+
+				puts JSON.pretty_generate config
 
 				layout_config['styles'].each_pair do |name, cfg|
 					config['styles'][name] = {} if config['styles'][name].nil?
