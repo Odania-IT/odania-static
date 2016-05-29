@@ -183,9 +183,9 @@ class PageConverter
 				config = {
 					'styles' => {
 						'_general' => {
-							'direct' => process_folder(File.dirname(file) + '/direct', domain),
-							'dynamic' => process_folder(File.dirname(file) + '/dynamic', domain),
-							'assets' => process_assets(File.dirname(file) + '/assets')
+							'direct' => process_folder(File.join(File.dirname(file), 'direct'), domain),
+							'dynamic' => process_folder(File.join(File.dirname(file), 'dynamic'), domain),
+							'assets' => process_assets(File.join(File.dirname(file), 'assets'))
 						}
 					}
 				}
