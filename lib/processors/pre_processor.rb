@@ -12,7 +12,7 @@ module PreProcessor
 				rescue => e
 					puts "Error parsing yaml metadata!! #{e.inspect}"
 					e.backtrace.each do |line|
-						puts e
+						puts line
 					end
 					puts yaml_metadata
 				end

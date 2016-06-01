@@ -5,6 +5,7 @@ require 'socket'
 require 'odania'
 
 require_relative '../lib/generate_plugin_config'
+require_relative '../lib/asset_converter'
 require_relative '../lib/page_converter'
 require_relative '../lib/helper/config_helper'
 
@@ -16,11 +17,18 @@ namespace :web do
 		static_dir = application_config['static_dir']
 		release_dir = application_config['release_dir'] + '/' + Time.now.strftime('%Y%m%d_%H%M%S')
 
+		# TODO Get ip/port from consul
+		puts 'Retrieving core information'
+		$core_uri = '172.19.0.7'
+		$core_port = 9292
+		puts "Core found at #{$core_uri}:#{$core_port}"
+
 		puts 'Loading configuration'
 		plugin_config = GeneratePluginConfig.new.create static_dir
 
 		puts 'Generating web files'
-		plugin_config[:domains] = PageConverter.new(static_dir, release_dir).convert
+		plugin_config[:assets] = AssetConverter.new(static_dir, release_dir).convert
+		plugin_config[:pages] = PageConverter.new(static_dir, release_dir).convert
 
 		puts 'Writing plugin config'
 		File.write "#{release_dir}/config.json", JSON.pretty_generate(plugin_config)

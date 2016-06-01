@@ -12,7 +12,7 @@ class HtmlProcessor
 	end
 
 	def process_file(file)
-		content = File.read file
+		content = File.read file, encoding: 'utf-8'
 		PreProcessor.process content
 	end
 
