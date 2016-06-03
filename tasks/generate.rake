@@ -19,8 +19,9 @@ namespace :web do
 
 		# TODO Get ip/port from consul
 		puts 'Retrieving core information'
-		$core_uri = '172.19.0.7'
-		$core_port = 9292
+		core_service = Odania.consul.service.get_core_service
+		$core_uri = core_service.ServiceAddress
+		$core_port = core_service.ServicePort
 		puts "Core found at #{$core_uri}:#{$core_port}"
 
 		puts 'Loading configuration'
