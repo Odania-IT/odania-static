@@ -44,7 +44,7 @@ class AssetConverter
 				FileUtils.mkdir_p target_dir unless Dir.exists? target_dir
 				FileUtils.cp file, target_file
 
-				config["#{prefix}#{name}"] = {
+				config["^#{prefix}#{name}$"] = {
 					plugin_url: target_name,
 					cacheable: true
 				}
