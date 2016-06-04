@@ -44,7 +44,10 @@ class AssetConverter
 				FileUtils.mkdir_p target_dir unless Dir.exists? target_dir
 				FileUtils.cp file, target_file
 
-				config["^#{prefix}#{name}$"] = {
+				path = "#{prefix}#{name}"
+				path = "/#{path}" unless '/'.eql? path[0]
+
+				config["^#{path}$"] = {
 					plugin_url: target_name,
 					cacheable: true
 				}
