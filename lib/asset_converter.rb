@@ -7,27 +7,23 @@ class AssetConverter
 	def convert
 		FileUtils.mkdir_p "#{@target_web_dir}/contents" unless Dir.exists? "#{@target_web_dir}/contents"
 
-		config = Hash.new { |hash, key| hash[key] = {} }
 		Dir.glob("#{@static_dir}/contents/**/assets").each do |directory|
 			parts = directory.split('/')
 			parts.pop
 			subdomain = parts.pop
 			domain = parts.pop
 
+			next if 'layouts'.eql? domain
 			puts
 			puts
-			if 'layouts'.eql? domain
-				puts "Got Layout: #{subdomain} ======================================================================================"
-			else
-				puts "Got domain: #{domain} sub_domain: #{subdomain} ======================================================================================"
-			end
-			config[domain][subdomain] = process_assets(directory)
+			puts "Got domain: #{domain} sub_domain: #{subdomain} ======================================================================================"
+			$domain_config[domain][subdomain][:assets] = process_assets(directory)
 		end
 
-		config
+		$domain_config
 	end
 
-	private
+	protected
 
 	# Process assets
 	# TODO minify, processing
