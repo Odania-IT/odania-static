@@ -32,7 +32,7 @@ namespace :web do
 		puts 'Generating web files'
 		$valid_domains = Hash.new { |hash, key| hash[key] = [] }
 		$domain_config = Hash.new { |hash, key| hash[key] = Hash.new { |h, k| h[k] = {assets: {}, layouts: {}, pages: {}, config: {}} } }
-		$default_domains = []
+		$default_domains = Hash.new { |hash, key| hash[key] = [] }
 		DomainConfigs.new(static_dir).process
 		AssetConverter.new(static_dir, release_dir).convert
 		LayoutConverter.new(static_dir, release_dir).convert

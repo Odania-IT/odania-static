@@ -46,12 +46,10 @@ This module provides static content to the Odania Portal
 	"domains": {
 		"_general": {
 			"config": {
+				"is_default": true
 			},
 			"redirects": {
 				"^example.com$": "www.example.com"
-			},
-			"default_subdomains": {
-				"_general": "www"
 			}
 		}
 	}

@@ -16,7 +16,7 @@ class DomainConfigs
 			domain_config = JSON.parse File.read file
 			unless domain_config['config'].nil?
 				$domain_config[domain][subdomain][:config] = domain_config['config']
-				$default_domains = "#{subdomain}.#{domain}" if domain_config['config']['is_default']
+				$default_domains[domain] << subdomain if domain_config['config']['is_default']
 			end
 			$domain_config[domain][subdomain][:redirects] = domain_config['redirects'] unless domain_config['redirects'].nil?
 		end
