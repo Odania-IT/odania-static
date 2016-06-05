@@ -30,17 +30,22 @@ class PageProcessor
 
 				puts "name: #{name} web_name: #{web_name} full_web_name: #{full_web_name}"
 				html_data, metadata = processor.process_file file
-				metadata['released'] = true if metadata['released'].nil? and (metadata['release_at'].nil? or metadata['release_at'] < Time.now)
-				metadata['view_in_list'] = true if metadata['view_in_list'].nil?
 				config = metadata.merge({
 													path: web_name,
 													domain: domain,
 													subdomain: subdomain,
 													full_domain: full_domain,
-													full_path: full_web_name,
 													cacheable: true
 												})
-				config[:partial_name] = "#{prefix}#{web_name}" if :partials.eql? type
+
+				if :partials.eql? type
+					config[:partial_name] = "#{prefix}#{web_name}"
+				else
+					config['released'] = true if config['released'].nil? and (config['release_at'].nil? or config['release_at'] < Time.now)
+					config['view_in_list'] = true if config['view_in_list'].nil?
+					config[:full_path] = full_web_name
+				end
+
 				idx_data = config.merge(content: html_data)
 
 				path = "/api/#{type}?id=#{full_web_name}"

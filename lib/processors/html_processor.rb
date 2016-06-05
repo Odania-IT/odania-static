@@ -4,7 +4,7 @@ class HtmlProcessor
 	end
 
 	def glob
-		'*.html'
+		'*.{html,html.erb}'
 	end
 
 	def target_name(name)

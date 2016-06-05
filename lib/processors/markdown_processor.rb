@@ -12,7 +12,7 @@ class MarkdownProcessor
 	end
 
 	def glob
-		'*.md'
+		'*.{md,md.erb}'
 	end
 
 	def target_name(name)
