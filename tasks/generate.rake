@@ -30,12 +30,16 @@ namespace :web do
 		plugin_config = GeneratePluginConfig.new.create static_dir
 
 		puts 'Generating web files'
+		$valid_domains = Hash.new { |hash, key| hash[key] = [] }
 		$domain_config = Hash.new { |hash, key| hash[key] = Hash.new { |h, k| h[k] = {assets: {}, layouts: {}, pages: {}, config: {}} } }
+		$default_domains = []
 		DomainConfigs.new(static_dir).process
 		AssetConverter.new(static_dir, release_dir).convert
 		LayoutConverter.new(static_dir, release_dir).convert
 		PageConverter.new(static_dir).convert
 		plugin_config[:domains] = $domain_config
+		plugin_config[:valid_domains] = $valid_domains
+		plugin_config[:default_domains] = $default_domains
 
 		puts 'Writing plugin config'
 		File.write "#{release_dir}/config.json", JSON.pretty_generate(plugin_config)

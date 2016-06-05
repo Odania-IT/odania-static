@@ -11,8 +11,6 @@ class PageProcessor
 	end
 
 	def process_pages(directory, domain, subdomain, type, prefix='')
-		config = Hash.new { |hash, key| hash[key] = {} }
-
 		@processors.each do |processor|
 			puts ' '*12 + " searching for: #{processor.name} in: #{directory}"
 			Dir.glob("#{directory}/**/#{processor.glob}").each do |file|
@@ -25,6 +23,8 @@ class PageProcessor
 					full_domain = ''
 				elsif '_general'.eql? subdomain
 					full_domain = domain
+				elsif :web.eql? type
+					$valid_domains[domain] << subdomain unless $valid_domains[domain].include? subdomain
 				end
 				full_web_name = "#{prefix}#{full_domain.empty? ? '' : '/' + full_domain}#{web_name}"
 
@@ -32,16 +32,16 @@ class PageProcessor
 				html_data, metadata = processor.process_file file
 				metadata['released'] = true if metadata['released'].nil? and (metadata['release_at'].nil? or metadata['release_at'] < Time.now)
 				metadata['view_in_list'] = true if metadata['view_in_list'].nil?
-				config[type][web_name] = metadata.merge({
-																		 path: web_name,
-																		 domain: domain,
-																		 subdomain: subdomain,
-																		 full_domain: full_domain,
-																		 full_path: full_web_name,
-																		 cacheable: true
-																	 })
-				config[type][web_name][:partial_name] = "#{prefix}#{web_name}" if :partials.eql? type
-				idx_data = config[type][web_name].merge(content: html_data)
+				config = metadata.merge({
+													path: web_name,
+													domain: domain,
+													subdomain: subdomain,
+													full_domain: full_domain,
+													full_path: full_web_name,
+													cacheable: true
+												})
+				config[:partial_name] = "#{prefix}#{web_name}" if :partials.eql? type
+				idx_data = config.merge(content: html_data)
 
 				path = "/api/#{type}?id=#{full_web_name}"
 				req = Net::HTTP::Post.new(path, initheader = {'Content-Type' => 'application/json'})
@@ -55,7 +55,5 @@ class PageProcessor
 				end
 			end
 		end
-
-		config
 	end
 end

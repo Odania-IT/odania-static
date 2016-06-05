@@ -4,7 +4,6 @@ class GeneratePluginConfig
 
 		ips = Odania.ips
 		plugin_config = config_data.clone
-		plugin_config[:domains] = Hash.new
 		plugin_config['plugin-config']['ips'] = ips
 		plugin_config['plugin-config']['ip'] = Odania.primary_ip(ips)
 		plugin_config['plugin-config']['port'] = 80

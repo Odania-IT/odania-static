@@ -22,9 +22,9 @@ class LayoutConverter < AssetConverter
 
 			$domain_config[domain][subdomain][:layouts][layout_name] = {
 				assets: process_assets(File.join(directory, 'assets')),
-				config: layout_config,
-				partials: @page_processor.process_pages(File.join(directory, 'files'), domain, subdomain, :partials, "layouts/#{layout_name}")[:partials]
+				config: layout_config
 			}
+			@page_processor.process_pages(File.join(directory, 'files'), domain, subdomain, :partials, "layouts/#{layout_name}")
 		end
 	end
 end
