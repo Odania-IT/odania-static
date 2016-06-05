@@ -30,6 +30,8 @@ class PageProcessor
 
 				puts "name: #{name} web_name: #{web_name} full_web_name: #{full_web_name}"
 				html_data, metadata = processor.process_file file
+				metadata['released'] = true if metadata['released'].nil? and (metadata['release_at'].nil? or metadata['release_at'] < Time.now)
+				metadata['view_in_list'] = true if metadata['view_in_list'].nil?
 				config[type][web_name] = metadata.merge({
 																		 path: web_name,
 																		 domain: domain,
@@ -38,6 +40,7 @@ class PageProcessor
 																		 full_path: full_web_name,
 																		 cacheable: true
 																	 })
+				config[type][web_name][:partial_name] = "#{prefix}#{web_name}" if :partials.eql? type
 				idx_data = config[type][web_name].merge(content: html_data)
 
 				path = "/api/#{type}?id=#{full_web_name}"
@@ -48,6 +51,7 @@ class PageProcessor
 				unless 200.eql? response.code.to_i
 					puts "ERROR: Could not index #{full_web_name}!"
 					puts response.inspect
+					exit
 				end
 			end
 		end

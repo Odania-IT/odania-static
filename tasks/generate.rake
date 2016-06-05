@@ -6,6 +6,7 @@ require 'odania'
 
 require_relative '../lib/generate_plugin_config'
 require_relative '../lib/asset_converter'
+require_relative '../lib/domain_configs'
 require_relative '../lib/layout_converter'
 require_relative '../lib/page_converter'
 require_relative '../lib/helper/config_helper'
@@ -30,6 +31,7 @@ namespace :web do
 
 		puts 'Generating web files'
 		$domain_config = Hash.new { |hash, key| hash[key] = Hash.new { |h, k| h[k] = {assets: {}, layouts: {}, pages: {}, config: {}} } }
+		DomainConfigs.new(static_dir).process
 		AssetConverter.new(static_dir, release_dir).convert
 		LayoutConverter.new(static_dir, release_dir).convert
 		PageConverter.new(static_dir).convert
