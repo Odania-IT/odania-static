@@ -32,7 +32,8 @@ class LayoutConverter < AssetConverter
 				partial_config = JSON.parse File.read(partial_file)
 
 				partial_config.each_pair do |key, value|
-					partial_config[key] = "#{prefix}/#{value}"
+					value['template'] = "#{prefix}/#{value['template']}"
+					partial_config[key] = value
 				end
 
 				$partials[domain][subdomain][:layouts][layout_name].merge!(partial_config)
