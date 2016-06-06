@@ -33,6 +33,7 @@ namespace :web do
 		$valid_domains = Hash.new { |hash, key| hash[key] = [] }
 		$domain_config = Hash.new { |hash, key| hash[key] = Hash.new { |h, k| h[k] = {assets: {}, layouts: {}, pages: {}, config: {}} } }
 		$default_domains = Hash.new { |hash, key| hash[key] = [] }
+		$partials = Hash.new { |hash, key| hash[key] = Hash.new { |h, k| h[k] = {default: {}, layouts: Hash.new { |a, b| a[b] = {} } } } }
 		DomainConfigs.new(static_dir).process
 		AssetConverter.new(static_dir, release_dir).convert
 		LayoutConverter.new(static_dir, release_dir).convert
@@ -40,6 +41,7 @@ namespace :web do
 		plugin_config[:domains] = $domain_config
 		plugin_config[:valid_domains] = $valid_domains
 		plugin_config[:default_domains] = $default_domains
+		plugin_config[:partials] = $partials
 
 		puts 'Writing plugin config'
 		File.write "#{release_dir}/config.json", JSON.pretty_generate(plugin_config)

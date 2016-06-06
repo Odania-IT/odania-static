@@ -28,6 +28,13 @@ class PageConverter
 			puts
 			puts "partials domain: #{domain} sub_domain: #{subdomain} ======================================================================================"
 
+			# Load partials.json
+			partial_file = File.join directory, 'partials.json'
+			if File.exists? partial_file
+				partial_config = JSON.parse File.read(partial_file)
+				$partials[domain][subdomain][:default].merge!(partial_config)
+			end
+
 			@page_processor.process_pages(directory, domain, subdomain, :partials)
 		end
 	end
