@@ -20,13 +20,19 @@ class LayoutConverter < AssetConverter
 			puts "Got Layout #{layout_name} for Domain: #{domain} Subdomain: #{subdomain} =============================================================================="
 			layout_config = JSON.parse File.read layout_json
 
+			# Set prefix in entry points
+			prefix = "layouts/#{layout_name}"
+			layout_config['styles'].each do |_name, data|
+				data['entry_point'] = "#{prefix}/#{data['entry_point']}"
+			end
+
+
 			$domain_config[domain][subdomain][:layouts][layout_name] = {
 				assets: process_assets(File.join(directory, 'assets')),
 				config: layout_config
 			}
 
 			# Load partials.json
-			prefix = "layouts/#{layout_name}"
 			partial_file = File.join directory, 'partials.json'
 			if File.exists? partial_file
 				partial_config = JSON.parse File.read(partial_file)
