@@ -20,8 +20,9 @@ class MarkdownProcessor
 	end
 
 	def process_file(file)
-		content = self.markdown.render File.read(file, encoding: 'utf-8')
-		PreProcessor.process content
+		content, metadata = PreProcessor.process File.read(file, encoding: 'utf-8')
+		content = self.markdown.render content
+		return content, metadata
 	end
 
 	def can_handle?(file)
