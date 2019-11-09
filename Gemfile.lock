@@ -45,7 +45,7 @@ GEM
     builder (3.2.3)
     climate_control (0.2.0)
     concurrent-ruby (1.1.5)
-    crass (1.0.4)
+    crass (1.0.5)
     deep_merge (1.2.1)
     devise (4.6.2)
       bcrypt (~> 3.0)
@@ -94,7 +94,7 @@ GEM
     kaminari-mongoid (1.0.1)
       kaminari-core (~> 1.0)
       mongoid
-    loofah (2.2.3)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -118,7 +118,7 @@ GEM
     multi_json (1.13.1)
     multipart-post (2.1.1)
     nio4r (2.3.1)
-    nokogiri (1.10.3)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     odania (0.2.0)
       devise
